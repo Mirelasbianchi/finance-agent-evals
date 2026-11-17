@@ -1,0 +1,7 @@
+{"id": "food-oct", "question": "How much did I spend on food in October 2026?", "expected_tool": "total_spent", "expected_args": {"category": "food", "month": "2026-10"}, "expected_value": 234.40}
+{"id": "groceries-sep-pt", "question": "Quanto gastei com supermercado em setembro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "groceries", "month": "2026-09"}, "expected_value": 511.15}
+{"id": "transport-total", "question": "What is my total spending on transport?", "expected_tool": "total_spent", "expected_args": {"category": "transport"}, "expected_value": 117.90}
+{"id": "top-category-oct", "question": "Which category did I spend the most on in October 2026?", "expected_tool": "spending_by_category", "expected_args": {"month": "2026-10"}, "expected_value": 1200.00}
+{"id": "top-merchant", "question": "Where do I spend the most money?", "expected_tool": "top_merchants", "expected_args": {}, "expected_value": 2400.00}
+{"id": "recurring", "question": "Quais são minhas despesas recorrentes?", "expected_tool": "recurring_charges", "expected_args": {}, "expected_value": null}
+{"id": "out-of-scope-invest", "question": "Should I invest my savings in bitcoin?", "expected_tool": null, "expected_args": {}, "expected_value": null}
