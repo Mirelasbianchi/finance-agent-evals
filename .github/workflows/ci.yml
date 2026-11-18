@@ -14,3 +14,50 @@ jobs:
       - run: uv sync
       - run: uv run ruff check .
       - run: uv run pytest
+
+  evals:
+    # Offline eval gate: the rule-based baseline must keep its pass rate, so changes to
+    # tools, scoring or the dataset that break known-good cases fail the build.
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run python evals/run_evals.py --model baseline/rules --no-save --min-pass-rate 0.8 | tee -a "$GITHUB_STEP_SUMMARY"
+
+  llm-evals:
+    # Runs the real model when the repository has an API key configured.
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && vars.LLM_EVAL_MODEL != ''
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run python evals/run_evals.py --model "${{ vars.LLM_EVAL_MODEL }}" | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: llm-eval-results
+          path: evals/results/
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t finance-agent-evals .
+
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform init -backend=false
+      - run: terraform validate
