@@ -10,7 +10,7 @@ dependencies = [
     "litellm>=1.50",
     "pandas>=2.2",
     "python-dotenv>=1.0",
-    "streamlit>=1.38",
+    "streamlit>=1.45",
 ]
 
 [dependency-groups]
