@@ -1,83 +1,124 @@
-# Finance Agent with Evals
+<p align="center"><img src="docs/assets/banner.svg" alt="Finance Agent Evals: an agent that answers questions about your bank statement, and an eval suite that keeps it honest" width="100%"></p>
 
-An LLM agent that answers personal finance questions from a bank statement ("how much did I spend on food in October?", "what are my biggest recurring expenses?"), built with an evaluation suite and a metrics dashboard from day one.
+<p align="center">
+  <a href="https://github.com/Mirelasbianchi/finance-agent-evals/actions/workflows/ci.yml"><img src="https://github.com/Mirelasbianchi/finance-agent-evals/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/Mirelasbianchi/finance-agent-evals/actions/workflows/deploy.yml"><img src="https://github.com/Mirelasbianchi/finance-agent-evals/actions/workflows/deploy.yml/badge.svg" alt="Deploy"></a>
+  <img src="https://img.shields.io/badge/python-3.11%2B-3776ab" alt="Python 3.11+">
+  <img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="MIT">
+</p>
 
-> **Status:** work in progress. See the [roadmap](#roadmap).
+An LLM agent that answers personal finance questions from a bank statement ("quanto gastei com comida em outubro?", "what are my recurring expenses?"), built with an evaluation suite, guardrails and a dashboard from day one.
+
+![Dashboard demo: asking the agent about groceries, recurring expenses and bitcoin, then the statement and eval views](docs/assets/demo.gif)
+
+<sub>Recorded from the real dashboard running locally with the offline baseline agent. [Full-resolution video (MP4)](docs/assets/demo.mp4).</sub>
 
 ## Why
 
-Most agent demos stop at "it answered correctly once". This project treats the agent as a product: every change to prompts, tools or models is measured against a fixed evaluation set, and quality, latency and cost are tracked over time.
-
-## Architecture
-
-```mermaid
-flowchart LR
-    U[User question] --> A[Agent<br/>LLM + tool calling]
-    S[(Bank statement<br/>CSV)] --> T[Tools<br/>pandas queries]
-    A <--> T
-    A --> R[Answer]
-    E[Eval dataset<br/>questions + expected results] --> H[Eval runner]
-    H --> A
-    H --> M[(Results<br/>accuracy, latency, cost)]
-    M --> D[Metrics dashboard]
-    A -. traces .-> O[Observability<br/>Langfuse]
-```
+Most agent demos stop at "it answered correctly once". This project treats the agent as a product: every change to prompts, tools or models is measured against a fixed evaluation set, regressions fail the build, and quality, latency and cost are tracked per run.
 
 ## How it works
 
-1. **Statement loader** reads a CSV statement into a normalized table (date, description, amount, category).
-2. **Tools** are deterministic functions over that table (totals by category or period, top merchants, recurring charges). The LLM never does arithmetic itself; it chooses which tool to call and explains the result.
-3. **Agent loop** sends the question and tool schemas to the model, executes tool calls and returns the final answer.
-4. **Evals** run the agent over a dataset of questions with known answers and score:
-   - tool selection accuracy (did it call the right tool with the right arguments?)
-   - answer correctness (does the number in the answer match the expected value?)
-   - LLM-as-judge for answer quality on open questions
-   - latency and token cost per question
-5. **Dashboard** compares eval runs so regressions are visible before they ship.
+```mermaid
+flowchart LR
+    U[Question] --> G{Guardrails}
+    G -- investment advice --> X[Fixed refusal]
+    G --> A[Agent<br/>LiteLLM tool calling<br/>or baseline/rules]
+    S[(Statement CSV)] --> T[Tools<br/>pandas]
+    A <--> T
+    T -. descriptions sanitised .-> A
+    A --> R[Answer]
+    E[41 eval cases] --> H[Eval runner]
+    H --> A
+    H --> M[(Results JSON<br/>pass rate, cost, latency)]
+    M --> D[Streamlit dashboard]
+    M --> CI[CI gate]
+```
+
+1. **The model never does arithmetic.** It picks one of four deterministic tools (`total_spent`, `spending_by_category`, `top_merchants`, `recurring_charges`), the tool computes with pandas, and the model explains the result.
+2. **Guardrails run outside the model.** Investment questions get a fixed refusal before any model call. Transaction descriptions are untrusted (anyone can write a Pix message), so instruction-like text inside them is removed before it reaches the model.
+3. **Two agents, same tools.** Any LiteLLM model (Anthropic, OpenAI, Gemini, Ollama) or `baseline/rules`, a keyword router that needs no API key. The baseline is the floor every LLM has to beat, and it makes the whole project runnable offline.
+4. **Evals score behaviour, not vibes**: right tool, right arguments, right number in the answer, refusal when expected, no numbers when the data isn't there. Optional LLM-as-judge adds groundedness, helpfulness and language scores from a written rubric.
+
+## Eval results
+
+41 cases in Portuguese and English, tagged by what they test:
+
+| Kind | Cases | What it checks |
+|---|---:|---|
+| lookup | 15 | A category and/or a month: "Quanto gastei com supermercado em setembro de 2026?" |
+| ranking | 8 | Largest category, top merchants, recurring charges |
+| paraphrase | 9 | The same intents in words the tools don't use: "corridas de aplicativo", "Netflix and Spotify" |
+| unanswerable | 5 | Not in the statement (credit limit, next month, someone else's spending): must not invent numbers |
+| refusal | 4 | Investment advice: must refuse |
+
+<p align="center"><img src="docs/assets/pass-rate.svg" alt="baseline/rules passes 100% of lookup, ranking and refusal cases, 33% of paraphrases and 60% of unanswerable cases" width="80%"></p>
+
+The keyword baseline gets every direct question right and fails exactly where you'd expect a system with no language understanding to fail: it reads *"Quanto paguei de corridas de aplicativo em setembro?"* as a total for September (R$ 2.071,85 instead of R$ 54,50 on transport), and answers *"How much did my brother spend on Uber?"* with your own Uber spending. Those are the cases an LLM agent has to win to justify its cost. To compare, run the same suite with a model:
+
+```bash
+uv run python evals/run_evals.py --model anthropic/claude-sonnet-4-5 --judge-model openai/gpt-4o-mini
+```
+
+Each run is saved to `evals/results/` and appears in the dashboard next to the baseline.
 
 ## Getting started
 
-Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
+Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/). No API key needed for the baseline.
 
 ```bash
 git clone https://github.com/Mirelasbianchi/finance-agent-evals.git
 cd finance-agent-evals
 uv sync
-cp .env.example .env              # add your model API key
 
-uv run python -m finance_agent "How much did I spend on food in October?"
-uv run python evals/run_evals.py   # writes evals/results/<timestamp>.json
+uv run python -m finance_agent "Quanto gastei com comida em outubro de 2026?"   # uses MODEL from .env
+MODEL=baseline/rules uv run python -m finance_agent "What are my recurring expenses?"
+
+uv run python evals/run_evals.py --model baseline/rules
 uv run streamlit run dashboard/app.py
 ```
 
-The model is configured with `MODEL` in `.env` and called through [LiteLLM](https://github.com/BerriAI/litellm), so it works with Anthropic, OpenAI, Gemini or local models.
+To use an LLM, copy `.env.example` to `.env`, set `MODEL` to any [LiteLLM model string](https://docs.litellm.ai/docs/providers) and add the provider's API key.
+
+## CI/CD and deployment
+
+- **Eval gate**: every push runs the suite with `baseline/rules` and fails if the pass rate drops below 80%. With an `LLM_EVAL_MODEL` repository variable and the API key secret, pushes to `main` also run the LLM suite and upload the results.
+- **AWS**: the dashboard is containerised and deployed to ECS Fargate behind an Application Load Balancer, provisioned with [Terraform](infra/terraform) and deployed by GitHub Actions through OIDC (no stored AWS keys). Setup and costs in [`infra/README.md`](infra/README.md).
 
 ## Project structure
 
 ```
 finance-agent-evals/
 ├── src/finance_agent/
-│   ├── statement.py   # load and normalize the bank statement
+│   ├── statement.py   # load and normalise the statement
 │   ├── tools.py       # deterministic finance tools + JSON schemas
-│   └── agent.py       # tool-calling agent loop
+│   ├── agent.py       # tool-calling loop, cost tracking
+│   ├── baseline.py    # offline rule-based agent (MODEL=baseline/rules)
+│   └── guardrails.py  # investment refusal, prompt-injection filter
 ├── data/              # synthetic sample statement (no real data)
 ├── evals/
-│   ├── dataset.jsonl  # questions, expected tool calls and answers
-│   └── run_evals.py   # eval runner and metrics
-├── dashboard/app.py   # Streamlit dashboard over eval results
-└── tests/             # unit tests for tools
+│   ├── dataset.jsonl  # 41 cases with expected tool, arguments and value
+│   ├── run_evals.py   # runner, scoring, CI gate
+│   ├── judge.py       # LLM-as-judge rubric
+│   └── results/       # one JSON per run
+├── dashboard/app.py   # Streamlit: ask, statement, eval runs
+├── infra/terraform/   # AWS: ECS Fargate, ALB, ECR, Secrets Manager, OIDC
+└── tests/
 ```
 
 ## Roadmap
 
-- [x] Project skeleton, sample statement, first tools and eval runner
-- [ ] Expand eval dataset to 50+ questions, including ambiguous and unanswerable ones
-- [ ] LLM-as-judge scoring with a written rubric
-- [ ] Tracing with Langfuse (latency, tokens and cost per conversation)
-- [ ] Dashboard comparing runs across prompts and models
-- [ ] Support for real statement formats (OFX, Nubank and Itaú CSV exports)
-- [ ] Guardrails: refuse investment advice, handle prompt injection in transaction descriptions
-- [ ] Write-up: what the evals revealed and which changes improved the agent
+- [x] Sample statement, tools and tool-calling agent
+- [x] Eval suite with 41 cases across five kinds, pass rate per kind
+- [x] Offline baseline agent as the floor for every model
+- [x] Guardrails: investment refusal, prompt injection in transaction descriptions
+- [x] LLM-as-judge with a written rubric
+- [x] Cost and latency per run, dashboard comparing runs
+- [x] Eval gate in CI, Docker image, AWS deployment with Terraform
+- [ ] Publish LLM runs (Claude, GPT, an open model via Ollama) side by side with the baseline
+- [ ] Tracing with Langfuse
+- [ ] Real statement formats: OFX and Nubank / Itaú CSV exports
+- [ ] Relative dates ("mês passado") and multi-step questions
 
 ## Privacy
 
