@@ -5,6 +5,8 @@ The LLM chooses which tool to call and with which arguments; all arithmetic happ
 
 import pandas as pd
 
+from finance_agent.guardrails import sanitize_description
+
 
 def total_spent(df: pd.DataFrame, category: str | None = None, month: str | None = None) -> dict:
     """Total spent (as a positive number), optionally filtered by category and month (YYYY-MM)."""
@@ -36,7 +38,8 @@ def top_merchants(df: pd.DataFrame, limit: int = 5, month: str | None = None) ->
     if month:
         expenses = expenses[expenses["month"] == month]
     totals = (-expenses.groupby("description")["amount"].sum()).sort_values(ascending=False)
-    return {"month": month, "merchants": {k: round(v, 2) for k, v in totals.head(limit).items()}}
+    merchants = {sanitize_description(k): round(v, 2) for k, v in totals.head(limit).items()}
+    return {"month": month, "merchants": merchants}
 
 
 def recurring_charges(df: pd.DataFrame) -> dict:
@@ -46,7 +49,8 @@ def recurring_charges(df: pd.DataFrame) -> dict:
     counts = expenses.groupby("description")["month"].nunique()
     recurring = counts[counts == months].index
     avg = -expenses[expenses["description"].isin(recurring)].groupby("description")["amount"].mean()
-    return {"recurring": {k: round(v, 2) for k, v in avg.sort_values(ascending=False).items()}}
+    items = avg.sort_values(ascending=False).items()
+    return {"recurring": {sanitize_description(k): round(v, 2) for k, v in items}}
 
 
 TOOLS = {
