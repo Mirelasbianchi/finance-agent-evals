@@ -1,6 +1,8 @@
 """Run the agent over the eval dataset and save metrics.
 
-Usage: uv run python evals/run_evals.py [--model anthropic/claude-sonnet-4-5]
+Usage:
+    uv run python evals/run_evals.py --model baseline/rules          # offline, no API key
+    uv run python evals/run_evals.py --model anthropic/claude-sonnet-4-5
 """
 
 import argparse
@@ -39,6 +41,8 @@ def score(case: dict, result) -> dict:
     called = [c["name"] for c in result.tool_calls]
     expected_tool = case["expected_tool"]
     tool_ok = (not called) if expected_tool is None else expected_tool in called
+    if case.get("expect_refusal"):
+        tool_ok = tool_ok and result.refused
     args_ok = any(
         c["name"] == expected_tool
         and all(c["arguments"].get(k) == v for k, v in case["expected_args"].items())
@@ -51,7 +55,8 @@ def score(case: dict, result) -> dict:
         if expected_value is None
         else any(abs(v - expected_value) < 0.01 for v in numbers_in(result.answer))
     )
-    return {"tool_ok": tool_ok, "args_ok": args_ok, "value_ok": value_ok}
+    return {"tool_ok": tool_ok, "args_ok": args_ok, "value_ok": value_ok,
+            "passed": bool(tool_ok and args_ok and value_ok is not False)}
 
 
 def main() -> None:
@@ -74,9 +79,12 @@ def main() -> None:
             "latency_s": result.latency_s,
             "input_tokens": result.input_tokens,
             "output_tokens": result.output_tokens,
+            "cost_usd": round(result.cost_usd, 6),
+            "kind": case.get("kind", "other"),
             **score(case, result),
         })
-        print(f"{case['id']:<22} tool={rows[-1]['tool_ok']!s:<5} value={rows[-1]['value_ok']}")
+        mark = "PASS" if rows[-1]["passed"] else "FAIL"
+        print(f"{mark}  {case['id']:<26} tool={rows[-1]['tool_ok']!s:<5} value={rows[-1]['value_ok']}")
 
     valued = [r for r in rows if r["value_ok"] is not None]
     summary = {
@@ -88,6 +96,13 @@ def main() -> None:
         "answer_accuracy": sum(r["value_ok"] for r in valued) / len(valued) if valued else None,
         "avg_latency_s": sum(r["latency_s"] for r in rows) / len(rows),
         "total_tokens": sum(r["input_tokens"] + r["output_tokens"] for r in rows),
+        "total_cost_usd": round(sum(r["cost_usd"] for r in rows), 4),
+        "pass_rate": sum(r["passed"] for r in rows) / len(rows),
+        "pass_rate_by_kind": {
+            kind: sum(r["passed"] for r in group) / len(group)
+            for kind in sorted({r["kind"] for r in rows})
+            for group in [[r for r in rows if r["kind"] == kind]]
+        },
     }
 
     RESULTS_DIR.mkdir(exist_ok=True)

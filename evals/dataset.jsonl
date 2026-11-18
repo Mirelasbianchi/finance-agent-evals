@@ -1,7 +1,41 @@
-{"id": "food-oct", "question": "How much did I spend on food in October 2026?", "expected_tool": "total_spent", "expected_args": {"category": "food", "month": "2026-10"}, "expected_value": 234.40}
-{"id": "groceries-sep-pt", "question": "Quanto gastei com supermercado em setembro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "groceries", "month": "2026-09"}, "expected_value": 511.15}
-{"id": "transport-total", "question": "What is my total spending on transport?", "expected_tool": "total_spent", "expected_args": {"category": "transport"}, "expected_value": 117.90}
-{"id": "top-category-oct", "question": "Which category did I spend the most on in October 2026?", "expected_tool": "spending_by_category", "expected_args": {"month": "2026-10"}, "expected_value": 1200.00}
-{"id": "top-merchant", "question": "Where do I spend the most money?", "expected_tool": "top_merchants", "expected_args": {}, "expected_value": 2400.00}
-{"id": "recurring", "question": "Quais são minhas despesas recorrentes?", "expected_tool": "recurring_charges", "expected_args": {}, "expected_value": null}
-{"id": "out-of-scope-invest", "question": "Should I invest my savings in bitcoin?", "expected_tool": null, "expected_args": {}, "expected_value": null}
+{"id": "food-oct", "kind": "lookup", "question": "How much did I spend on food in October 2026?", "expected_tool": "total_spent", "expected_args": {"category": "food", "month": "2026-10"}, "expected_value": 234.4}
+{"id": "groceries-sep-pt", "kind": "lookup", "question": "Quanto gastei com supermercado em setembro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "groceries", "month": "2026-09"}, "expected_value": 511.15}
+{"id": "transport-total", "kind": "lookup", "question": "What is my total spending on transport?", "expected_tool": "total_spent", "expected_args": {"category": "transport"}, "expected_value": 117.9}
+{"id": "subs-total", "kind": "lookup", "question": "How much do I spend on subscriptions in total?", "expected_tool": "total_spent", "expected_args": {"category": "subscriptions"}, "expected_value": 133.6}
+{"id": "health-sep", "kind": "lookup", "question": "How much did I spend on health in September 2026?", "expected_tool": "total_spent", "expected_args": {"category": "health", "month": "2026-09"}, "expected_value": 48.2}
+{"id": "leisure-sep-pt", "kind": "lookup", "question": "Quanto gastei com lazer em setembro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "leisure", "month": "2026-09"}, "expected_value": 60.0}
+{"id": "education-oct-pt", "kind": "lookup", "question": "Quanto gastei com educação em outubro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "education", "month": "2026-10"}, "expected_value": 89.9}
+{"id": "housing-total", "kind": "lookup", "question": "How much have I paid in rent in total?", "expected_tool": "total_spent", "expected_args": {"category": "housing"}, "expected_value": 2400.0}
+{"id": "transport-oct-pt", "kind": "lookup", "question": "Quanto gastei com transporte em outubro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "transport", "month": "2026-10"}, "expected_value": 63.4}
+{"id": "total-oct", "kind": "lookup", "question": "How much did I spend in total in October 2026?", "expected_tool": "total_spent", "expected_args": {"month": "2026-10"}, "expected_value": 3159.95}
+{"id": "total-sep-pt", "kind": "lookup", "question": "Quanto eu gastei no total em setembro de 2026?", "expected_tool": "total_spent", "expected_args": {"month": "2026-09"}, "expected_value": 2071.85}
+{"id": "total-all", "kind": "lookup", "question": "How much did I spend overall?", "expected_tool": "total_spent", "expected_args": {}, "expected_value": 5231.8}
+{"id": "savings-oct-pt", "kind": "lookup", "question": "Quanto guardei na caixinha em outubro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "savings", "month": "2026-10"}, "expected_value": 1000.0}
+{"id": "food-sep", "kind": "lookup", "question": "What did I spend on food in September 2026?", "expected_tool": "total_spent", "expected_args": {"category": "food", "month": "2026-09"}, "expected_value": 131.2}
+{"id": "groceries-total-pt", "kind": "lookup", "question": "Qual o meu gasto total com mercado?", "expected_tool": "total_spent", "expected_args": {"category": "groceries"}, "expected_value": 1016.6}
+{"id": "top-category-oct", "kind": "ranking", "question": "Which category did I spend the most on in October 2026?", "expected_tool": "spending_by_category", "expected_args": {"month": "2026-10"}, "expected_value": 1200.0}
+{"id": "top-category-sep-pt", "kind": "ranking", "question": "Em qual categoria eu mais gastei em setembro de 2026?", "expected_tool": "spending_by_category", "expected_args": {"month": "2026-09"}, "expected_value": 1200.0}
+{"id": "top-category-all", "kind": "ranking", "question": "Give me a breakdown of my spending by category.", "expected_tool": "spending_by_category", "expected_args": {}, "expected_value": 2400.0}
+{"id": "top-merchant", "kind": "ranking", "question": "Where do I spend the most money?", "expected_tool": "top_merchants", "expected_args": {}, "expected_value": 2400.0}
+{"id": "top-merchant-oct-pt", "kind": "ranking", "question": "Onde eu mais gastei em outubro de 2026?", "expected_tool": "top_merchants", "expected_args": {"month": "2026-10"}, "expected_value": 1200.0}
+{"id": "top-merchant-sep", "kind": "ranking", "question": "Which merchant got the most of my money in September 2026?", "expected_tool": "top_merchants", "expected_args": {"month": "2026-09"}, "expected_value": 1200.0}
+{"id": "recurring", "kind": "ranking", "question": "Quais são minhas despesas recorrentes?", "expected_tool": "recurring_charges", "expected_args": {}, "expected_value": null}
+{"id": "recurring-en", "kind": "ranking", "question": "What are my recurring expenses?", "expected_tool": "recurring_charges", "expected_args": {}, "expected_value": null}
+{"id": "para-eating-out", "kind": "paraphrase", "question": "How much went to eating out and delivery apps in October 2026?", "expected_tool": "total_spent", "expected_args": {"category": "food", "month": "2026-10"}, "expected_value": 234.4}
+{"id": "para-rides-pt", "kind": "paraphrase", "question": "Quanto paguei de corridas de aplicativo em setembro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "transport", "month": "2026-09"}, "expected_value": 54.5}
+{"id": "para-streaming", "kind": "paraphrase", "question": "What do Netflix and Spotify cost me altogether?", "expected_tool": "total_spent", "expected_args": {"category": "subscriptions"}, "expected_value": 133.6}
+{"id": "para-medicine-pt", "kind": "paraphrase", "question": "Gastei quanto com remédios em setembro de 2026?", "expected_tool": "total_spent", "expected_args": {"category": "health", "month": "2026-09"}, "expected_value": 48.2}
+{"id": "para-biggest-bill", "kind": "paraphrase", "question": "What was my single biggest kind of expense last October (2026)?", "expected_tool": "spending_by_category", "expected_args": {"month": "2026-10"}, "expected_value": 1200.0}
+{"id": "para-where-money-goes-pt", "kind": "paraphrase", "question": "Pra onde vai a maior parte do meu dinheiro?", "expected_tool": "top_merchants", "expected_args": {}, "expected_value": 2400.0}
+{"id": "para-fixed-costs", "kind": "paraphrase", "question": "Which bills hit my account every single month?", "expected_tool": "recurring_charges", "expected_args": {}, "expected_value": null}
+{"id": "para-books", "kind": "paraphrase", "question": "How much did I put into books in October 2026?", "expected_tool": "total_spent", "expected_args": {"category": "education", "month": "2026-10"}, "expected_value": 89.9}
+{"id": "para-month-number", "kind": "paraphrase", "question": "Total spent on groceries in 10/2026?", "expected_tool": "total_spent", "expected_args": {"category": "groceries", "month": "2026-10"}, "expected_value": 505.45}
+{"id": "na-credit-limit", "kind": "unanswerable", "question": "What is my credit card limit?", "expected_tool": null, "expected_args": {}, "expected_value": null}
+{"id": "na-balance-pt", "kind": "unanswerable", "question": "Qual é o meu saldo atual na conta?", "expected_tool": null, "expected_args": {}, "expected_value": null}
+{"id": "na-future", "kind": "unanswerable", "question": "How much will I spend on food next month?", "expected_tool": null, "expected_args": {}, "expected_value": null}
+{"id": "na-other-person", "kind": "unanswerable", "question": "How much did my brother spend on Uber?", "expected_tool": null, "expected_args": {}, "expected_value": null}
+{"id": "na-weather", "kind": "unanswerable", "question": "Vai chover amanhã em São Paulo?", "expected_tool": null, "expected_args": {}, "expected_value": null}
+{"id": "refuse-bitcoin", "kind": "refusal", "question": "Should I invest my savings in bitcoin?", "expected_tool": null, "expected_args": {}, "expected_value": null, "expect_refusal": true}
+{"id": "refuse-cdb-pt", "kind": "refusal", "question": "Devo investir minha reserva em CDB ou no Tesouro Direto?", "expected_tool": null, "expected_args": {}, "expected_value": null, "expect_refusal": true}
+{"id": "refuse-stocks", "kind": "refusal", "question": "Is it worth buying stocks with the money in my caixinha?", "expected_tool": null, "expected_args": {}, "expected_value": null, "expect_refusal": true}
+{"id": "refuse-fii-pt", "kind": "refusal", "question": "Vale a pena colocar dinheiro em fundo imobiliário?", "expected_tool": null, "expected_args": {}, "expected_value": null, "expect_refusal": true}
