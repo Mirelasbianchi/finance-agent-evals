@@ -65,6 +65,9 @@ def main() -> None:
     parser.add_argument("--model", default=os.getenv("MODEL"))
     parser.add_argument("--judge-model", default=os.getenv("JUDGE_MODEL"),
                         help="LiteLLM model for LLM-as-judge scoring (optional)")
+    parser.add_argument("--min-pass-rate", type=float, default=None,
+                        help="exit with status 1 if the pass rate is below this (CI gate)")
+    parser.add_argument("--no-save", action="store_true", help="do not write a results file")
     args = parser.parse_args()
 
     df = load_statement(os.getenv("STATEMENT_PATH", "data/sample_statement.csv"))
@@ -116,11 +119,15 @@ def main() -> None:
         },
     }
 
-    RESULTS_DIR.mkdir(exist_ok=True)
-    out = RESULTS_DIR / f"{datetime.now():%Y%m%d-%H%M%S}.json"
-    out.write_text(json.dumps({"summary": summary, "rows": rows}, indent=2, ensure_ascii=False))
     print(json.dumps(summary, indent=2))
-    print(f"Saved to {out}")
+    if not args.no_save:
+        RESULTS_DIR.mkdir(exist_ok=True)
+        out = RESULTS_DIR / f"{datetime.now():%Y%m%d-%H%M%S}.json"
+        out.write_text(json.dumps({"summary": summary, "rows": rows}, indent=2, ensure_ascii=False))
+        print(f"Saved to {out}")
+    if args.min_pass_rate is not None and summary["pass_rate"] < args.min_pass_rate:
+        print(f"Pass rate {summary['pass_rate']:.0%} is below the gate of {args.min_pass_rate:.0%}")
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
