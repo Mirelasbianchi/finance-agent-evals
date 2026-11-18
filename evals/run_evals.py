@@ -23,6 +23,7 @@ def numbers_in(text: str) -> list[float]:
     """Extract numbers from an answer, accepting 1.234,56 (pt-BR) and 1,234.56 (en)."""
     values = []
     for raw in re.findall(r"\d[\d.,]*", text):
+        raw = raw.rstrip(".,")  # sentence punctuation right after a number
         if re.search(r",\d{2}$", raw):
             raw = raw.replace(".", "").replace(",", ".")
         else:
