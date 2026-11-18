@@ -63,6 +63,8 @@ def main() -> None:
     load_dotenv()
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default=os.getenv("MODEL"))
+    parser.add_argument("--judge-model", default=os.getenv("JUDGE_MODEL"),
+                        help="LiteLLM model for LLM-as-judge scoring (optional)")
     args = parser.parse_args()
 
     df = load_statement(os.getenv("STATEMENT_PATH", "data/sample_statement.csv"))
@@ -83,6 +85,11 @@ def main() -> None:
             "kind": case.get("kind", "other"),
             **score(case, result),
         })
+        if args.judge_model:
+            from judge import judge
+
+            rows[-1]["judge"] = judge(case["question"], result.tool_calls, result.answer,
+                                      args.judge_model)
         mark = "PASS" if rows[-1]["passed"] else "FAIL"
         print(f"{mark}  {case['id']:<26} tool={rows[-1]['tool_ok']!s:<5} value={rows[-1]['value_ok']}")
 
@@ -97,6 +104,10 @@ def main() -> None:
         "avg_latency_s": sum(r["latency_s"] for r in rows) / len(rows),
         "total_tokens": sum(r["input_tokens"] + r["output_tokens"] for r in rows),
         "total_cost_usd": round(sum(r["cost_usd"] for r in rows), 4),
+        "judge_model": args.judge_model,
+        "judge_mean": (
+            round(sum(r["judge"]["mean"] for r in rows) / len(rows), 2) if args.judge_model else None
+        ),
         "pass_rate": sum(r["passed"] for r in rows) / len(rows),
         "pass_rate_by_kind": {
             kind: sum(r["passed"] for r in group) / len(group)
