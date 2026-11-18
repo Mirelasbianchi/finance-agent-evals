@@ -32,3 +32,13 @@ variable "llm_api_key_env" {
   type        = string
   default     = "ANTHROPIC_API_KEY"
 }
+
+variable "task_cpu" {
+  type    = number
+  default = 256
+}
+
+variable "task_memory" {
+  type    = number
+  default = 512
+}
