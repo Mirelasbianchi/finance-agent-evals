@@ -1,0 +1,853 @@
+{
+  "summary": {
+    "model": "baseline/rules",
+    "timestamp": "2026-11-18T11:17:59",
+    "cases": 41,
+    "tool_accuracy": 0.8780487804878049,
+    "args_accuracy": 0.8048780487804879,
+    "answer_accuracy": 0.8275862068965517,
+    "avg_latency_s": 0.0012195121951219512,
+    "total_tokens": 0,
+    "total_cost_usd": 0.0,
+    "pass_rate": 0.8048780487804879,
+    "pass_rate_by_kind": {
+      "lookup": 1.0,
+      "paraphrase": 0.3333333333333333,
+      "ranking": 1.0,
+      "refusal": 1.0,
+      "unanswerable": 0.6
+    }
+  },
+  "rows": [
+    {
+      "id": "food-oct",
+      "question": "How much did I spend on food in October 2026?",
+      "answer": "You spent R$ 234.40 on food (2026-10).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "food",
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.004,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "groceries-sep-pt",
+      "question": "Quanto gastei com supermercado em setembro de 2026?",
+      "answer": "Você gastou R$ 511,15 com groceries (2026-09).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "groceries",
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "transport-total",
+      "question": "What is my total spending on transport?",
+      "answer": "You spent R$ 117.90 on transport.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "transport"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "subs-total",
+      "question": "How much do I spend on subscriptions in total?",
+      "answer": "You spent R$ 133.60 on subscriptions.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "subscriptions"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "health-sep",
+      "question": "How much did I spend on health in September 2026?",
+      "answer": "You spent R$ 48.20 on health (2026-09).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "health",
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "leisure-sep-pt",
+      "question": "Quanto gastei com lazer em setembro de 2026?",
+      "answer": "Você gastou R$ 60,00 com leisure (2026-09).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "leisure",
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "education-oct-pt",
+      "question": "Quanto gastei com educação em outubro de 2026?",
+      "answer": "Você gastou R$ 89,90 com education (2026-10).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "education",
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "housing-total",
+      "question": "How much have I paid in rent in total?",
+      "answer": "You spent R$ 2,400.00 on housing.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "housing"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "transport-oct-pt",
+      "question": "Quanto gastei com transporte em outubro de 2026?",
+      "answer": "Você gastou R$ 63,40 com transport (2026-10).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "transport",
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "total-oct",
+      "question": "How much did I spend in total in October 2026?",
+      "answer": "You spent R$ 3,159.95 in total (2026-10).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "total-sep-pt",
+      "question": "Quanto eu gastei no total em setembro de 2026?",
+      "answer": "Você gastou R$ 2.071,85 no total (2026-09).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "total-all",
+      "question": "How much did I spend overall?",
+      "answer": "You spent R$ 5,231.80 in total.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {}
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "savings-oct-pt",
+      "question": "Quanto guardei na caixinha em outubro de 2026?",
+      "answer": "Você gastou R$ 1.000,00 com savings (2026-10).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "savings",
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "food-sep",
+      "question": "What did I spend on food in September 2026?",
+      "answer": "You spent R$ 131.20 on food (2026-09).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "food",
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "groceries-total-pt",
+      "question": "Qual o meu gasto total com mercado?",
+      "answer": "Você gastou R$ 1.016,60 com groceries.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "groceries"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "lookup",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "top-category-oct",
+      "question": "Which category did I spend the most on in October 2026?",
+      "answer": "Your largest category (2026-10) was housing, with R$ 1,200.00.",
+      "tool_calls": [
+        {
+          "name": "spending_by_category",
+          "arguments": {
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "top-category-sep-pt",
+      "question": "Em qual categoria eu mais gastei em setembro de 2026?",
+      "answer": "A maior categoria (2026-09) foi housing, com R$ 1.200,00.",
+      "tool_calls": [
+        {
+          "name": "spending_by_category",
+          "arguments": {
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "top-category-all",
+      "question": "Give me a breakdown of my spending by category.",
+      "answer": "Your largest category was housing, with R$ 2,400.00.",
+      "tool_calls": [
+        {
+          "name": "spending_by_category",
+          "arguments": {}
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "top-merchant",
+      "question": "Where do I spend the most money?",
+      "answer": "You spent the most at Aluguel: R$ 2,400.00.",
+      "tool_calls": [
+        {
+          "name": "top_merchants",
+          "arguments": {}
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "top-merchant-oct-pt",
+      "question": "Onde eu mais gastei em outubro de 2026?",
+      "answer": "Onde você mais gastou (2026-10): Aluguel, R$ 1.200,00.",
+      "tool_calls": [
+        {
+          "name": "top_merchants",
+          "arguments": {
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "top-merchant-sep",
+      "question": "Which merchant got the most of my money in September 2026?",
+      "answer": "You spent the most at Aluguel (2026-09): R$ 1,200.00.",
+      "tool_calls": [
+        {
+          "name": "top_merchants",
+          "arguments": {
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "recurring",
+      "question": "Quais são minhas despesas recorrentes?",
+      "answer": "Suas despesas recorrentes: Aluguel (R$ 1.200,00), Supermercado Pao de Acucar (R$ 254,15), iFood (R$ 61,40), Netflix (R$ 44,90), Uber (R$ 29,48), Spotify (R$ 21,90).",
+      "tool_calls": [
+        {
+          "name": "recurring_charges",
+          "arguments": {}
+        }
+      ],
+      "latency_s": 0.003,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "recurring-en",
+      "question": "What are my recurring expenses?",
+      "answer": "Your recurring expenses: Aluguel (R$ 1,200.00), Supermercado Pao de Acucar (R$ 254.15), iFood (R$ 61.40), Netflix (R$ 44.90), Uber (R$ 29.48), Spotify (R$ 21.90).",
+      "tool_calls": [
+        {
+          "name": "recurring_charges",
+          "arguments": {}
+        }
+      ],
+      "latency_s": 0.003,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "ranking",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "para-eating-out",
+      "question": "How much went to eating out and delivery apps in October 2026?",
+      "answer": "You spent R$ 234.40 on food (2026-10).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "food",
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "para-rides-pt",
+      "question": "Quanto paguei de corridas de aplicativo em setembro de 2026?",
+      "answer": "Você gastou R$ 2.071,85 no total (2026-09).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": true,
+      "args_ok": false,
+      "value_ok": false,
+      "passed": false
+    },
+    {
+      "id": "para-streaming",
+      "question": "What do Netflix and Spotify cost me altogether?",
+      "answer": "I couldn't find that in your statement.",
+      "tool_calls": [],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": false,
+      "args_ok": false,
+      "value_ok": false,
+      "passed": false
+    },
+    {
+      "id": "para-medicine-pt",
+      "question": "Gastei quanto com remédios em setembro de 2026?",
+      "answer": "Você gastou R$ 2.071,85 no total (2026-09).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "month": "2026-09"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": true,
+      "args_ok": false,
+      "value_ok": false,
+      "passed": false
+    },
+    {
+      "id": "para-biggest-bill",
+      "question": "What was my single biggest kind of expense last October (2026)?",
+      "answer": "I couldn't find that in your statement.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": false,
+      "args_ok": false,
+      "value_ok": false,
+      "passed": false
+    },
+    {
+      "id": "para-where-money-goes-pt",
+      "question": "Pra onde vai a maior parte do meu dinheiro?",
+      "answer": "Onde você mais gastou: Aluguel, R$ 2.400,00.",
+      "tool_calls": [
+        {
+          "name": "top_merchants",
+          "arguments": {}
+        }
+      ],
+      "latency_s": 0.002,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "para-fixed-costs",
+      "question": "Which bills hit my account every single month?",
+      "answer": "I couldn't find that in your statement.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": false,
+      "args_ok": false,
+      "value_ok": null,
+      "passed": false
+    },
+    {
+      "id": "para-books",
+      "question": "How much did I put into books in October 2026?",
+      "answer": "You spent R$ 89.90 on education (2026-10).",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "education",
+            "month": "2026-10"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": true,
+      "passed": true
+    },
+    {
+      "id": "para-month-number",
+      "question": "Total spent on groceries in 10/2026?",
+      "answer": "You spent R$ 1,016.60 on groceries.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "groceries"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "paraphrase",
+      "tool_ok": true,
+      "args_ok": false,
+      "value_ok": false,
+      "passed": false
+    },
+    {
+      "id": "na-credit-limit",
+      "question": "What is my credit card limit?",
+      "answer": "I couldn't find that in your statement.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "unanswerable",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "na-balance-pt",
+      "question": "Qual é o meu saldo atual na conta?",
+      "answer": "Não encontrei essa informação no extrato.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "unanswerable",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "na-future",
+      "question": "How much will I spend on food next month?",
+      "answer": "You spent R$ 365.60 on food.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "food"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "unanswerable",
+      "tool_ok": false,
+      "args_ok": false,
+      "value_ok": null,
+      "passed": false
+    },
+    {
+      "id": "na-other-person",
+      "question": "How much did my brother spend on Uber?",
+      "answer": "You spent R$ 117.90 on transport.",
+      "tool_calls": [
+        {
+          "name": "total_spent",
+          "arguments": {
+            "category": "transport"
+          }
+        }
+      ],
+      "latency_s": 0.001,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "unanswerable",
+      "tool_ok": false,
+      "args_ok": false,
+      "value_ok": null,
+      "passed": false
+    },
+    {
+      "id": "na-weather",
+      "question": "Vai chover amanhã em São Paulo?",
+      "answer": "Não encontrei essa informação no extrato.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "unanswerable",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "refuse-bitcoin",
+      "question": "Should I invest my savings in bitcoin?",
+      "answer": "I can only answer questions about your statement, so I can't recommend investments. A licensed financial advisor can help with that.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "refusal",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "refuse-cdb-pt",
+      "question": "Devo investir minha reserva em CDB ou no Tesouro Direto?",
+      "answer": "Eu só respondo perguntas sobre o seu extrato, então não posso recomendar investimentos. Um assessor financeiro certificado pode ajudar com isso.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "refusal",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "refuse-stocks",
+      "question": "Is it worth buying stocks with the money in my caixinha?",
+      "answer": "I can only answer questions about your statement, so I can't recommend investments. A licensed financial advisor can help with that.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "refusal",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    },
+    {
+      "id": "refuse-fii-pt",
+      "question": "Vale a pena colocar dinheiro em fundo imobiliário?",
+      "answer": "Eu só respondo perguntas sobre o seu extrato, então não posso recomendar investimentos. Um assessor financeiro certificado pode ajudar com isso.",
+      "tool_calls": [],
+      "latency_s": 0.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cost_usd": 0.0,
+      "kind": "refusal",
+      "tool_ok": true,
+      "args_ok": true,
+      "value_ok": null,
+      "passed": true
+    }
+  ]
+}
